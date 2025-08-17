@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invitación de Danna (6)</title>
+<meta property="og:title" content="¡Danna cumple 6!">
+<meta property="og:description" content="Ohana significa familia. Y familia significa compartir momentos juntos. • 07 de septiembre • 2:00 pm • El Gran Muelle, Piso 3">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --rosa:#F7C6E0;
+    --rosa-osc:#D980B8;
+    --lila:#E6D7FF;
+    --texto:#5B2C6F;
+  }
+  body{
+    margin:0;
+    font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    background: linear-gradient(180deg, #FFE7F5, #EEDCFF);
+    color: var(--texto);
+    display:flex; flex-direction:column; align-items:center; min-height:100vh;
+  }
+  .card{
+    width:min(680px, 92vw);
+    background:#fff; border-radius:24px; box-shadow:0 10px 30px rgba(0,0,0,.08);
+    padding:16px; margin:14px; overflow:hidden;
+  }
+  .hero img{
+    width:100%; height:auto; border-radius:16px;
+    display:block;
+  }
+  .btns{
+    display:grid; gap:12px; grid-template-columns:1fr; margin-top:14px;
+  }
+  a.btn{
+    text-decoration:none; text-align:center; font-weight:700;
+    padding:14px 18px; border-radius:16px; display:block;
+    background:var(--rosa); color:#642B73; border:2px solid var(--rosa-osc);
+    box-shadow:0 4px 0 var(--rosa-osc);
+  }
+  a.btn:hover{
+    filter:brightness(1.02); transform:translateY(-1px);
+  }
+  .meta{
+    text-align:center; font-size:14px; opacity:.9; margin-top:8px;
+  }
+  .audio-tip{
+    font-size:13px; opacity:.8; text-align:center; margin-top:8px;
+  }
+  footer{font-size:12px; opacity:.6; margin:20px 0 10px;}
+  
+  .sound-cta{
+    position:fixed; inset:auto 16px 16px 16px;
+    display:flex; justify-content:center; z-index:9999;
+  }
+  .sound-cta button{
+    background:#fff; border:2px solid var(--rosa-osc); color:#642B73;
+    border-radius:999px; padding:12px 18px; font-weight:800;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+  }
+  .sound-cta[hidden]{ display:none; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="hero">
+      <img src="invitacion_Danna.png" alt="Invitación cumpleaños de Danna">
+    </div>
+    <div class="btns">
+      <a class="btn" href="https://wa.me/573105873626?text=Hola%2C%20confirmo%20asistencia%20al%20cumple%20de%20Danna%20el%2007%20de%20septiembre.%20Asistentes%3A%20___" target="_blank" rel="noopener">✅ Confirmar asistencia por WhatsApp</a>
+      <a class="btn" href="https://maps.app.goo.gl/MasTvPmdYTcjBHXd7" target="_blank" rel="noopener">📍 ¿Cómo llegar? Ver mapa</a>
+      <a class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Cumplea%C3%B1os%20de%20Danna%20%286%29&dates=20250907T140000/20250907T180000&location=El%20Gran%20Muelle%2C%20Piso%203%20-%20Calle%2065F%20Sur%20%2380C%20-%2041&details=Ohana%20significa%20familia.%20Y%20familia%20significa%20compartir%20momentos%20juntos.&ctz=America/Bogota" target="_blank" rel="noopener">🗓️ Agregar al calendario</a>
+    </div>
+    <p class="meta">Fecha: 07 de septiembre • Hora: 2:00 pm • Lugar: El Gran Muelle, Piso 3 — Calle 65F Sur #80C - 41</p>
+    <audio id="bgm" preload="auto" autoplay loop playsinline muted controls preload="none" class="audio" style="width:100%; margin-top:10px;">
+      <source src="cancion_ohana.m4a" type="audio/mpeg">
+      Tu navegador no soporta audio. Sube un archivo MP3 llamado <b>cancion_ohana.mp3</b> al mismo folder.
+    </audio>
+  </div>
+  <div class="sound-cta" id="soundCta" hidden><button type="button">🔊 Activar sonido</button></div>
+  <footer>Creado y producido por Andrey Rodríguez.</footer>
+  <script>
+	(function(){
+	  const audio = document.getElementById('bgm');
+	  const cta = document.getElementById('soundCta');
+	  if(!audio) return;
+
+	  // Try to start playing immediately with mute (to satisfy autoplay policies)
+	  const tryPlay = () => audio.play().catch(() => {});
+
+	  // Start muted, then attempt to unmute shortly for some browsers after a tick (still may be blocked)
+	  tryPlay().then(() => {
+		// attempt to unmute after a short delay; many browsers still block this without gesture
+		setTimeout(() => { audio.muted = false; }, 400);
+	  });
+
+	  // If audio is paused after a short grace period, reveal CTA
+	  setTimeout(() => {
+		if (audio.paused) cta.hidden = false;
+	  }, 1200);
+
+	  // On CTA click/touch, unmute and play
+	  cta.addEventListener('click', async () => {
+		try {
+		  audio.muted = false;
+		  await audio.play();
+		  cta.hidden = true;
+		} catch (e) {
+		  // keep CTA visible if still blocked
+		}
+	  }, { passive:true });
+
+	  // Ensure looping (redundant to loop attr, but safer)
+	  audio.addEventListener('ended', () => { audio.currentTime = 0; audio.play(); });
+	})();
+  </script>
+</body>
+</html>
